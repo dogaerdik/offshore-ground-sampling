@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: Offshore Ground Sampling
+  datasource:
+    url: jdbc:h2:mem:ogsmem;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  sql:
+    init:
+      mode: never
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+sampling:
+  threshold:
+    unit-weight-kn-per-m3: 25
+    water-content-percent: 100
+    shear-strength-kpa: 800
+app:
+  jwt:
+    secret-key: "dev-jwt-secret-change-in-production-min-32-chars!!"
+    expiration-ms: 3600000

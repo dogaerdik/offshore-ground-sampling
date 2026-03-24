@@ -1,0 +1,53 @@
+.DS_Store
+**/.DS_Store
+Thumbs.db
+*.log
+
+# IDE — regenerate from pom.xml / package.json
+/.idea/
+*.iml
+backend/.idea/
+frontend/.idea/
+
+# Local env (Vite / Node)
+.env
+.env.local
+.env.*.local
+
+# Shared run configs (optional); prefer not committing IDE-specific paths
+backend/.run/
+frontend/.run/
+
+backend/target/
+!backend/**/src/main/**/target/
+!backend/**/src/test/**/target/
+backend/HELP.md
+
+### STS (backend) ###
+backend/.apt_generated
+backend/.classpath
+backend/.factorypath
+backend/.project
+backend/.settings
+backend/.springBeans
+backend/.sts4-cache
+
+### IntelliJ IDEA ###
+*.iws
+*.ipr
+
+### NetBeans (backend) ###
+backend/nbproject/private/
+backend/nbbuild/
+backend/dist/
+backend/nbdist/
+backend/.nb-gradle/
+backend/build/
+!backend/**/src/main/**/build/
+!backend/**/src/test/**/build/
+
+### VS Code (backend) ###
+backend/.vscode/
+
+frontend/node_modules/
+frontend/dist/

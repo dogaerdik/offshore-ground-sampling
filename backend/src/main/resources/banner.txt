@@ -1,0 +1,9 @@
+${AnsiColor.BRIGHT_GREEN}
+ ███████╗██╗   ██╗ ██████╗ ██████╗  ██████╗ 
+ ██╔════╝██║   ██║██╔════╝ ██╔══██╗██╔═══██╗
+ █████╗  ██║   ██║██║  ███╗██████╔╝██║   ██║
+ ██╔══╝  ██║   ██║██║   ██║██╔══██╗██║   ██║
+ ██║     ╚██████╔╝╚██████╔╝██║  ██║╚██████╔╝
+ ╚═╝      ╚═════╝  ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ 
+${AnsiColor.DEFAULT}
+${AnsiColor.BRIGHT_BLACK}Offshore Ground Sampling${AnsiColor.DEFAULT}  ${AnsiColor.BRIGHT_GREEN}::${AnsiColor.DEFAULT}  Spring Boot ${spring-boot.version}
