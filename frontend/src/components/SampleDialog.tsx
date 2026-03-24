@@ -26,13 +26,14 @@ function validate(d: SampleWriteDto): ValidationErrors {
   const errs: ValidationErrors = {};
   if (!d.locationId) errs.locationId = "Select a location";
   if (d.depthM <= 0) errs.depthM = "Must be > 0";
+  if (d.depthM > 5000) errs.depthM = "Must be ≤ 5000 m";
   if (!d.collectedDate) errs.collectedDate = "Required";
-  if (d.unitWeightKnPerM3 < 12 || d.unitWeightKnPerM3 > 26)
-    errs.unitWeightKnPerM3 = "Must be 12 – 26 kN/m³";
-  if (d.waterContentPercent < 5 || d.waterContentPercent > 150)
-    errs.waterContentPercent = "Must be 5 – 150 %";
-  if (d.shearStrengthKpa < 2 || d.shearStrengthKpa > 1000)
-    errs.shearStrengthKpa = "Must be 2 – 1000 kPa";
+  if (d.unitWeightKnPerM3 <= 12 || d.unitWeightKnPerM3 >= 26)
+    errs.unitWeightKnPerM3 = "Must be > 12 and < 26 kN/m³";
+  if (d.waterContentPercent <= 5 || d.waterContentPercent >= 150)
+    errs.waterContentPercent = "Must be > 5 and < 150 %";
+  if (d.shearStrengthKpa <= 2 || d.shearStrengthKpa >= 1000)
+    errs.shearStrengthKpa = "Must be > 2 and < 1000 kPa";
   return errs;
 }
 
