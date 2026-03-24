@@ -94,10 +94,62 @@ function jsonHeadersWithAuth(): HeadersInit {
   return headers;
 }
 
+function humanizeValidationDetails(details: string): string {
+  return details
+    .split("; ")
+    .map((chunk) => {
+      const t = chunk.trim();
+      const i = t.indexOf(": ");
+      return i === -1 ? t : t.slice(i + 2);
+    })
+    .filter(Boolean)
+    .join(" · ");
+}
+
+function tryParseApiErrorJson(
+  raw: string,
+): { details?: string; message?: string } | null {
+  const trimmed = raw.trim();
+  if (!trimmed) {
+    return null;
+  }
+  try {
+    return JSON.parse(trimmed) as { details?: string; message?: string };
+  } catch {
+    const start = trimmed.indexOf("{");
+    const end = trimmed.lastIndexOf("}");
+    if (start === -1 || end <= start) {
+      return null;
+    }
+    try {
+      return JSON.parse(trimmed.slice(start, end + 1)) as {
+        details?: string;
+        message?: string;
+      };
+    } catch {
+      return null;
+    }
+  }
+}
+
+function apiErrorMessage(body: string, fallback: string): string {
+  const parsed = tryParseApiErrorJson(body);
+  if (parsed) {
+    if (parsed.details != null && String(parsed.details).trim() !== "") {
+      return humanizeValidationDetails(String(parsed.details));
+    }
+    if (parsed.message != null && String(parsed.message).trim() !== "") {
+      return String(parsed.message).trim();
+    }
+  }
+  const trimmed = body.trim();
+  return trimmed || fallback;
+}
+
 async function json<T>(res: Response): Promise<T> {
   if (!res.ok) {
     const body = await res.text();
-    throw new Error(body || res.statusText);
+    throw new Error(apiErrorMessage(body, res.statusText));
   }
   return res.json();
 }
@@ -134,8 +186,11 @@ export function deleteSample(id: number): Promise<void> {
   return fetch(`${BASE}/samples/${id}`, {
     method: "DELETE",
     headers: jsonHeadersWithAuth(),
-  }).then((r) => {
-    if (!r.ok) throw new Error(r.statusText);
+  }).then(async (r) => {
+    if (!r.ok) {
+      const body = await r.text();
+      throw new Error(apiErrorMessage(body, r.statusText));
+    }
   });
 }
 
